@@ -10,3 +10,9 @@ export const ERROR_MESSAGES = {
   notFound: "The requested resource was not found.",
   unauthorized: "You are not authorized to perform this action.",
 };
+
+import { PropertyProps } from "@/interfaces";
+
+export const PROPERTYLISTINGSAMPLE: PropertyProps[] = [
+  /* paste your data here */
+];

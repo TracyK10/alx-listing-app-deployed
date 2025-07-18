@@ -1,17 +1,18 @@
-import React from "react";
-import { CardProps } from "../../interfaces";
+import { PropertyProps } from "@/interfaces";
 
-const Card: React.FC<CardProps> = ({ image, title, description, price }) => {
-  return (
-    <div className="border rounded-lg overflow-hidden shadow-md">
-      <img src={image} alt={title} className="w-full h-48 object-cover" />
-      <div className="p-4">
-        <h3 className="text-lg font-semibold mb-2">{title}</h3>
-        <p className="text-gray-600 text-sm mb-2">{description}</p>
-        <p className="text-blue-600 font-bold">{price}</p>
-      </div>
+const Card = ({ name, image, price, rating }: PropertyProps) => (
+  <div className="rounded shadow bg-white">
+    <img
+      src={image}
+      alt={name}
+      className="h-48 w-full object-cover rounded-t"
+    />
+    <div className="p-4">
+      <h3 className="text-lg font-semibold">{name}</h3>
+      <p className="text-sm text-gray-600">${price}/night</p>
+      <p className="text-sm text-yellow-500">★ {rating}</p>
     </div>
-  );
-};
+  </div>
+);
 
 export default Card;
