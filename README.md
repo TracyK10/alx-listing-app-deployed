@@ -4,6 +4,15 @@ A modern, responsive property listing application built with Next.js, React, Typ
 
 ## 🌟 Features
 
+### Booking System
+- **Interactive Booking Form**: User-friendly form for entering booking details
+- **Order Summary**: Clear breakdown of costs and booking details
+- **Cancellation Policy**: Transparent cancellation terms and conditions
+- **Ground Rules**: Clear guidelines for guests to follow
+- **Responsive Layout**: Adapts to different screen sizes
+
+### Property Browsing
+
 - **Responsive Design**: Fully responsive layout that works seamlessly across desktop, tablet, and mobile devices
 - **Property Browsing**: Browse through various property types with detailed information
 - **Filter System**: Filter properties by categories (All, Hotels, Apartments, Villas, Cabins)
@@ -28,6 +37,10 @@ A modern, responsive property listing application built with Next.js, React, Typ
 ```
 alx-listing-app-00/
 ├── components/              # Reusable React components
+│   ├── booking/            # Booking system components
+│   │   ├── BookingForm.tsx     # Booking form component
+│   │   ├── OrderSummary.tsx    # Booking summary component
+│   │   └── CancellationPolicy.tsx # Cancellation policy and rules
 │   ├── common/             # Common UI components
 │   │   ├── Button.tsx      # Reusable button component
 │   │   ├── Card.tsx        # Property card component
