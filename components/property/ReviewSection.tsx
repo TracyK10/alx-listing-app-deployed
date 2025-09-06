@@ -68,7 +68,7 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({
           throw new Error(response.data.message || 'Failed to load reviews');
         }
       } catch (err) {
-        const axiosError = err as any;
+        const axiosError = err as import('axios').AxiosError<{ message?: string }>;
         const errorMessage = axiosError.response?.data?.message || 'Failed to load reviews. Please try again.';
         console.error('Error fetching reviews:', errorMessage);
         setError(errorMessage);
@@ -98,13 +98,6 @@ const ReviewSection: React.FC<ReviewSectionProps> = ({
     ));
   };
 
-  const getInitials = (name: string) => {
-    return name
-      .split(' ')
-      .map(n => n[0])
-      .join('')
-      .toUpperCase();
-  };
 
   if (isLoading) {
     return (

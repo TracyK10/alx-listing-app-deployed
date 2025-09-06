@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { Property } from '@/interfaces';
-import { Star, MapPin, Bed, Bath, Ruler, Users, Wifi, Parking, Kitchen, Tv, AirVent } from 'lucide-react';
+import { Star, MapPin, Bed, Bath, Ruler, Users, Wifi, Car, Utensils, Tv, AirVent } from 'lucide-react';
 import ReviewSection from './ReviewSection';
 
 interface PropertyDetailProps {
@@ -16,9 +16,9 @@ const PropertyDetail: React.FC<PropertyDetailProps> = ({ property }) => {
       case 'wifi':
         return <Wifi {...iconProps} />;
       case 'parking':
-        return <Parking {...iconProps} />;
+        return <Car {...iconProps} />;
       case 'kitchen':
-        return <Kitchen {...iconProps} />;
+        return <Utensils {...iconProps} />;
       case 'tv':
         return <Tv {...iconProps} />;
       case 'ac':
@@ -127,10 +127,8 @@ const PropertyDetail: React.FC<PropertyDetailProps> = ({ property }) => {
           {/* Reviews */}
           <div className="bg-white rounded-xl shadow-sm p-6">
             <ReviewSection
-              reviews={property.reviews || []}
-              averageRating={property.rating || 0}
-              totalReviews={property.reviewCount || 0}
-              onAddReview={() => {
+              propertyId={property.id}
+              onReviewAdded={() => {
                 // Handle add review
                 console.log('Add review clicked');
               }}
@@ -149,14 +147,14 @@ const PropertyDetail: React.FC<PropertyDetailProps> = ({ property }) => {
               <div className="flex items-center">
                 <Star className="w-4 h-4 text-yellow-400 fill-yellow-400 mr-1" />
                 <span>{property.rating || 'New'}</span>
-                <span className="text-gray-500 ml-1">({property.reviewCount || 0})</span>
+                <span className="text-gray-500 ml-1">(&#39;{property.reviewCount || 0}&#39;)</span>
               </div>
             </div>
             <button className="w-full bg-primary text-white py-3 rounded-lg font-medium hover:bg-primary-dark transition-colors mb-4">
               Book Now
             </button>
             <div className="text-center text-sm text-gray-500">
-              You won't be charged yet
+              You won&#39;t be charged yet
             </div>
           </div>
         </div>

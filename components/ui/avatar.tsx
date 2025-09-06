@@ -1,4 +1,5 @@
 import * as React from "react"
+import Image from 'next/image';
 import { cn } from "@/lib/utils"
 
 const Avatar = React.forwardRef<
@@ -6,7 +7,7 @@ const Avatar = React.forwardRef<
   React.HTMLAttributes<HTMLSpanElement> & {
     asChild?: boolean
   }
->(({ className, asChild = false, ...props }, ref) => {
+>(({ className, ...props }, ref) => {
   return (
     <span
       ref={ref}
@@ -21,21 +22,26 @@ const Avatar = React.forwardRef<
 Avatar.displayName = "Avatar"
 
 const AvatarImage = React.forwardRef<
-  HTMLImageElement,
-  React.ImgHTMLAttributes<HTMLImageElement> & {
-    asChild?: boolean
+  HTMLDivElement,
+  {
+    src: string;
+    alt?: string;
+    className?: string;
+    width?: number;
+    height?: number;
   }
->(({ className, src, alt, ...props }, ref) => {
-  return (
-    <img
-      ref={ref}
-      src={src}
-      alt={alt}
-      className={cn("aspect-square h-full w-full", className)}
-      {...props}
-    />
-  )
-})
+>((props) => {
+    const { src, alt, className, width = 40, height = 40 } = props;
+    return (
+      <Image
+        src={src}
+        alt={alt || ''}
+        width={width}
+        height={height}
+        className={cn("aspect-square h-full w-full", className)}
+      />
+    );
+  })
 AvatarImage.displayName = "AvatarImage"
 
 const AvatarFallback = React.forwardRef<

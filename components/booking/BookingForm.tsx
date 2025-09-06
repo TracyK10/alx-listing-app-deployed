@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/router';
 import { toast } from 'react-hot-toast';
 
@@ -153,7 +153,8 @@ const BookingForm = () => {
       }
     } catch (error) {
       console.error('Booking error:', error);
-      const errorMessage = error.response?.data?.message || 'Failed to process booking. Please try again.';
+      const axiosError = error as AxiosError<{ message?: string }>;
+      const errorMessage = axiosError.response?.data?.message || 'Failed to process booking. Please try again.';
       toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);

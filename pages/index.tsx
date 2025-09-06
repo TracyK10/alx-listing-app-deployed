@@ -23,7 +23,7 @@ export default function HomePage() {
     const fetchProperties = async () => {
       try {
         setLoading(true);
-        const response = await axios.get<ApiResponse>("/api/properties");
+  const response = await axios.get<ApiResponse>(`${process.env.NEXT_PUBLIC_API_BASE_URL}/properties`);
         if (response.data.success) {
           setProperties(response.data.data);
         } else {

@@ -14,4 +14,7 @@ export interface Property {
   isAvailable: boolean;
   createdAt: string;
   updatedAt: string;
+  guests?: number;
+  reviews?: import("../components/property/ReviewSection").Review[];
+  reviewCount?: number;
 }

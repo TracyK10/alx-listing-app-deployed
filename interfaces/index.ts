@@ -1,3 +1,4 @@
+export * from './property';
 // Card component props
 export interface CardProps {
   image: string;

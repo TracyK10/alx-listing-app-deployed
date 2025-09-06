@@ -14,7 +14,7 @@ interface PropertyDetailPageProps {
 
 export default function PropertyDetailPage({ initialProperty, error: serverError }: PropertyDetailPageProps) {
   const router = useRouter();
-  const { id } = router.query;
+  const id = router.query.id as string | undefined;
   const [property, setProperty] = useState<Property | null>(initialProperty || null);
   const [loading, setLoading] = useState(!initialProperty);
   const [error, setError] = useState<string | null>(serverError || null);
@@ -22,14 +22,12 @@ export default function PropertyDetailPage({ initialProperty, error: serverError
   useEffect(() => {
     const fetchProperty = async () => {
       if (!id || initialProperty) return;
-      
       try {
         setLoading(true);
         setError(null);
         const response = await axios.get<{ data: Property; success: boolean; message?: string }>(
-          `/api/properties/${id}`
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/properties/${id}`
         );
-        
         if (response.data.success) {
           setProperty(response.data.data);
         } else {
@@ -42,9 +40,8 @@ export default function PropertyDetailPage({ initialProperty, error: serverError
         setLoading(false);
       }
     };
-
     fetchProperty();
-  }, [id, initialProperty]);
+  }, [initialProperty, id]);
 
   if (loading) {
     return (
@@ -90,36 +87,31 @@ export default function PropertyDetailPage({ initialProperty, error: serverError
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async () => {
   try {
-    const { id } = context.params as { id: string };
-    
     // In a real app, you would fetch the property data from your API here
     // For now, we'll return null and let the client-side fetch handle it
-    
     return {
       props: {
         initialProperty: null,
       },
     };
-    
     // Uncomment this in production when your API is ready
     /*
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/properties/${id}`);
-    
-    if (!response.data.success) {
-      return {
-        props: {
-          error: response.data.message || 'Failed to load property',
-        },
-      };
-    }
-    
-    return {
-      props: {
-        initialProperty: response.data.data,
-      },
-    };
+    // const { id } = context.params as { id: string };
+    // const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/properties/${id}`);
+    // if (!response.data.success) {
+    //   return {
+    //     props: {
+    //       error: response.data.message || 'Failed to load property',
+    //     },
+    //   };
+    // }
+    // return {
+    //   props: {
+    //     initialProperty: response.data.data,
+    //   },
+    // };
     */
   } catch (error) {
     console.error('Error in getServerSideProps:', error);
