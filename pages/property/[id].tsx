@@ -7,6 +7,18 @@ import { Property } from "@/interfaces";
 import Head from "next/head";
 import Layout from "@/components/layout/Layout";
 
+interface DummyJSONProduct {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  rating: number;
+  brand?: string;
+  category: string;
+  thumbnail: string;
+  images?: string[];
+}
+
 interface PropertyDetailPageProps {
   initialProperty?: Property;
   error?: string;
@@ -25,14 +37,32 @@ export default function PropertyDetailPage({ initialProperty, error: serverError
       try {
         setLoading(true);
         setError(null);
-        const response = await axios.get<{ data: Property; success: boolean; message?: string }>(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/properties/${id}`
+        const response = await axios.get<DummyJSONProduct>(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/products/${id}`
         );
-        if (response.data.success) {
-          setProperty(response.data.data);
-        } else {
-          setError(response.data.message || "Failed to load property details");
-        }
+        
+        // Transform DummyJSON product to our Property interface
+        const transformedProperty: Property = {
+          id: response.data.id.toString(),
+          title: response.data.title,
+          description: response.data.description,
+          location: `${response.data.brand || 'Unknown'}, ${response.data.category || 'Unknown'}`,
+          type: response.data.category || 'Product',
+          price: response.data.price,
+          bedrooms: Math.floor(Math.random() * 4) + 1,
+          bathrooms: Math.floor(Math.random() * 3) + 1,
+          area: Math.floor(Math.random() * 200) + 50,
+          imageUrl: response.data.thumbnail || response.data.images?.[0] || '/images/placeholder.jpg',
+          rating: response.data.rating || 4.5,
+          amenities: ['wifi', 'parking', 'kitchen', 'tv', 'ac'],
+          isAvailable: true,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          guests: Math.floor(Math.random() * 6) + 2,
+          reviewCount: Math.floor(Math.random() * 100) + 10
+        };
+
+        setProperty(transformedProperty);
       } catch (err) {
         console.error("Error fetching property details:", err);
         setError("An error occurred while loading the property. Please try again later.");

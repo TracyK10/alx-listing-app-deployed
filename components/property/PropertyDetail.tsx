@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { Property } from '@/interfaces';
 import { Star, MapPin, Bed, Bath, Ruler, Users, Wifi, Car, Utensils, Tv, AirVent } from 'lucide-react';
 import ReviewSection from './ReviewSection';
@@ -9,6 +10,11 @@ interface PropertyDetailProps {
 }
 
 const PropertyDetail: React.FC<PropertyDetailProps> = ({ property }) => {
+  const router = useRouter();
+  
+  const handleBookNow = () => {
+    router.push('/booking');
+  };
   const renderAmenityIcon = (amenity: string) => {
     const iconProps = { className: 'w-5 h-5 text-primary' };
     
@@ -29,24 +35,24 @@ const PropertyDetail: React.FC<PropertyDetailProps> = ({ property }) => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="max-w-6xl mx-auto px-4 py-8 bg-gradient-to-br from-pink-50 via-white to-blue-50 rounded-3xl">
       {/* Property Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">{property.title}</h1>
+        <h1 className="text-4xl font-extrabold text-primary mb-2 tracking-tight drop-shadow-lg">{property.title}</h1>
         <div className="flex items-center text-gray-600 mb-4">
-          <MapPin className="w-4 h-4 mr-1" />
-          <span>{property.location}</span>
+          <MapPin className="w-5 h-5 mr-2 text-primary" />
+          <span className="font-medium">{property.location}</span>
           <span className="mx-2">•</span>
           <div className="flex items-center">
-            <Star className="w-4 h-4 text-yellow-400 fill-yellow-400 mr-1" />
-            <span>{property.rating || 'New'}</span>
+            <Star className="w-5 h-5 text-yellow-400 fill-yellow-400 mr-1" />
+            <span className="font-semibold text-gray-800">{property.rating || 'New'}</span>
           </div>
         </div>
       </div>
 
       {/* Image Gallery */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-        <div className="md:col-span-3 h-96 rounded-xl overflow-hidden">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+        <div className="md:col-span-3 h-96 rounded-3xl overflow-hidden shadow-lg">
           <Image
             src={property.imageUrl || '/images/placeholder.jpg'}
             alt={property.title}
@@ -55,9 +61,9 @@ const PropertyDetail: React.FC<PropertyDetailProps> = ({ property }) => {
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="grid grid-cols-2 gap-2 md:grid-cols-1">
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-1">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-48 rounded-xl overflow-hidden">
+            <div key={i} className="h-48 rounded-2xl overflow-hidden shadow">
               <Image
                 src={property[`imageUrl${i}` as keyof Property] as string || '/images/placeholder.jpg'}
                 alt={`${property.title} ${i}`}
@@ -71,13 +77,12 @@ const PropertyDetail: React.FC<PropertyDetailProps> = ({ property }) => {
       </div>
 
       {/* Property Details */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
         <div className="lg:col-span-2">
-          <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
-            <h2 className="text-2xl font-semibold mb-4">About this property</h2>
-            <p className="text-gray-700 mb-6">{property.description}</p>
-            
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+          <div className="bg-white rounded-2xl shadow-lg p-8 mb-10">
+            <h2 className="text-2xl font-bold mb-4 text-primary">About this property</h2>
+            <p className="text-gray-700 mb-6 text-lg">{property.description}</p>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-6 mb-8">
               <div className="flex items-center">
                 <Bed className="w-5 h-5 text-primary mr-2" />
                 <div>
@@ -150,7 +155,10 @@ const PropertyDetail: React.FC<PropertyDetailProps> = ({ property }) => {
                 <span className="text-gray-500 ml-1">(&#39;{property.reviewCount || 0}&#39;)</span>
               </div>
             </div>
-            <button className="w-full bg-primary text-white py-3 rounded-lg font-medium hover:bg-primary-dark transition-colors mb-4">
+            <button 
+              onClick={handleBookNow}
+              className="w-full bg-primary text-white py-3 rounded-lg font-medium hover:bg-primary-dark transition-colors mb-4"
+            >
               Book Now
             </button>
             <div className="text-center text-sm text-gray-500">
